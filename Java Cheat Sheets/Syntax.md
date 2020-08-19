@@ -72,4 +72,232 @@ The modulus operator `%` returns the remainder of an integer division.
 
 #### Division by Zero
 
-Integer division by 0 raises an `ArithmeticException`, while floating-point division by 0 yields either `NaN`, `INFINITY` or `NEGATIVE_INFINITY` depending on the numerator and signs.
+Integer division by 0 raises an `ArithmeticException`, while floating-point division by 0 yields either `NaN`, `INFINITY` or `NEGATIVE_INFINITY`.
+
+Ex.
+```java
+1 / 0; // ArithmeticException
+
+0.0 / 0; // NaN
+
+1.0 / 0; // INFINITY
+
+-1.0 / 0; // NEGATIVE_INFINITY
+
+1.0 / -0; // NEGATIVE_INFINITY
+```
+
+#### Floating-Point Division and Accuracy
+
+The Java Virtual Machine specification initially mandated that all intermediate steps of a floating-point division must be truncated so that all divisions on all virtual machines would be exactly the same. Otherwise you would get cases like;
+
+```java
+double w = x * y / z; // on an 80-bit Intel processor
+=> (x * y) // Stored intermediately with 80 bits of precision
+=> (x * y) / z // Dividing and truncating back to 64 bits of precision
+```
+
+which would be faster and more precise, but might yield different results to a machine with only a 64-bit processor. However, the numeric community wanted maximum speed and precision, and so the specification was changed.
+
+If you do want to enforce strict division that is reproducible on all machines, you can tag classes or methods with the `strictfp` keyword:
+
+```java
+// All instructions inside this method use strict floating-point computation
+public strictfp double reproducibleDivision(a, b) {
+    ...
+}
+```
+
+### Casts
+
+Values of a smaller type will be automatically converted to a larger type when necessary:
+
+```java
+double x = 3.0 + 7; // 3.0 + (7 => 7.0) = 10.0
+```
+
+However, this doesn't work the other way because there is a risk of losing data by truncating a number to fit into the smaller datatype. You can force lossy type conversions by using casts. They have the syntax:
+
+`[type2] [name] = ([type2]) [variable of type1];`
+
+Ex:
+```java
+double x = 9.997;
+int newX = (int) x; // The fractional part of the x is discarded, and we're left with the integer 9.
+
+double x = 9.997;
+int newX = (int) Math.round(x); // Using Math.round() we can get a more accurate conversion, in this case we're left with integer 10
+```
+
+**Warning!** Trying to cast from one type to another that is out of range will cause the resulting value to be truncated into a different value.
+
+```java
+byte totally300 = (byte) 300; // 42
+```
+
+### Combining Assignment with Operators
+
+`x [operation]= y;`
+
+Ex.
+
+```java
+int x = 2;
+
+int x *= 3; // 6
+```
+
+as opposed to
+
+```java
+int x = 2;
+
+int x = x * 3; // 6
+```
+
+### Relational and Boolean Operators
+
+```java
+boolean a = (2 == 2); // Equals (true)
+boolean b = (1 != 2); // Does not equal (true)
+boolean c = (1 < 2);  // Less than (true)
+boolean d = (1 > 2);  // Greater than (false)
+boolean e = (2 <= 2); // Less than *or* equals (true)
+```
+
+```java
+boolean f = (d && e); // And (false)
+boolean g = (d || e); // Or (true)
+```
+
+The logical operators "and" and "or" evaluate to `true` or `false` immediately if this can be determined using the first argument. This can be exploited to avoid errors:
+
+```java
+// The division in the second half of the && comparison is never executed if x = 0. Thus we avoid division by zero.
+boolean b = ((x != 0) && (1 / x) > (x + y));
+
+
+// If expression1 is true, we don't check expression2.
+boolean c = (expression1 || expression2);
+```
+
+The *ternary operator* `?:` can be useful to quickly evaluate statements without using a clunky `if()` statement. If the first argument is true, the second argument is returned. Otherwise, the third argument is returned.
+
+```java
+boolean iWantCake = true;
+
+int howManySlices = iWantCake ? 9001 : 0; // I want over nine thousand slices of cake
+```
+
+### Bitwise Operators
+
+For any of the integer types, you have operators that can work directly with the bits that make up the integers. This means that you can use masking techniques to get at individual bits in a number. The bitwise operators are:
+
+#### & ("bitwise and")
+
+Compares the bits of both patterns and fills a new pattern with 1's if both original bits are 1, and 0 otherwise.
+
+```
+  1010
+& 0110
+  ----
+  0010
+```
+
+#### | ("bitwise or")
+
+Compares the bits of both patterns and fills a new pattern with 1's if one or both original bits are 1, and 0 otherwise.
+
+```
+  1010
+| 0110
+  ----
+  1110
+```
+
+#### ^ ("xor")
+
+Compares the bits of both patterns and fills a new pattern with 1's if *only* one of the original bits are 1, and 0 otherwise.
+
+```
+  1010
+^ 0110
+  ----
+  1100
+```
+
+#### ~ ("not")
+
+Flips each bit, so 1's become 0's and vice versa.
+
+```
+~ 1010
+  ----
+  0101
+```
+
+#### << >> ("bit shift")
+
+The "bit shift" operator shifts the bit pattern of the left argument to the right or left by (right argument) places. It fills with the leftmost digit (the sign of the value).
+
+```
+11010001011 >> 2; // 11110100010, shifted to the right two places
+11010001011 >> 4; // 11111101000, shifted to the right four places
+01010001011 >> 6; // 00000001010, shifted to the right six places (note that the original leftmost digit was 0)
+```
+
+#### >>> ("unsigned bit shift")
+
+Does the same as the regular "bit shift" operator, but always fills with zeros.
+
+```
+11010001011 >> 2; // 00110100010, shifted to the right two places
+11010001011 >> 4; // 00001101000, shifted to the right four places
+11010001011 >> 6; // 00000011010, shifted to the right six places
+```
+
+#### Testing Individual Bits
+
+By using a bit pattern with only one 1 in a specific location, you can compare it with a number `n` using `&` to confirm. If `n` has a `1` in that location and you divide by the comparison bit pattern, you get an integer `1`. If `n` has a `0` in the specific location, you will get an integer `0`.
+
+```java
+int n = [some number];
+
+int fourthBitFromRight = (n & 0b1000) / 0b1000; // Evaluates to the value of the fourth bit from the right in the binary pattern of n
+```
+
+You can achieve the same result by shifting `n` to the right by a number of places and simply comparing with `1` using `&`.
+
+```java
+int n = [some number];
+
+int fourthBitFromRight = (n >> 4) & 1; // Evaluates to the value of the fourth bit from the right in the binary pattern of n
+```
+
+### The instanceof Operator
+
+Compares an object's type to a reference type.
+
+```java
+boolean isItAString = ("Hello?" instanceof String); // True
+boolean isItAString = ("Is anyone there?" instanceof Math); // False
+```
+
+### Operator Hierarchy
+
+| Operators                                | Associativity |
+| ---------------------------------------: | :-----------: |
+| `[] . ()` (method call)                  | ---->         |
+| `! ~ ++ --` `+ -` (unary) `()` (cast)    | <----         |
+| `* / %`                                  | ---->         |
+| `+ -`                                    | ---->         |
+| `<< >> >>>`                              | ---->         |
+| `< <= > >= instanceof`                   | ---->         |
+| `== !=`                                  | ---->         |
+| `&`                                      | ---->         |
+| `^`                                      | ---->         |
+| `|`                                      | ---->         |
+| `&&`                                     | ---->         |
+| `||`                                     | ---->         |
+| `?:`                                     | <----         |
+| `= += -= *= /= %= &= |= ^= <<= >>= >>>=` | <----         |

@@ -20,7 +20,7 @@
 
 ### Numeric Literals and Underscores
 
-You can use `_` *between* digits (not next to decimal points or `F` or `L` suffixes) in numerical literals to improve readability, for instance making groups of three digits as in `final int MAX = 2_147_483_647;`
+You can use `_` *between* digits (not next to decimal points or `F` or `L` suffixes) in numerical literals to improve readability, for instance making groups of three digits as in `final int INT_MAX = 2_147_483_647;`
 
 This will be read simply as `2147483647`.
 
