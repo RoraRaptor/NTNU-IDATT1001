@@ -1,0 +1,2 @@
+# NTNU-IDATT1001
+IDATT1001 Programmering 1
