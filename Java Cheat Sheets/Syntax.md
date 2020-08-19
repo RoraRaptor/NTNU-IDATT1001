@@ -266,12 +266,12 @@ int n = [some number];
 int fourthBitFromRight = (n & 0b1000) / 0b1000; // Evaluates to the value of the fourth bit from the right in the binary pattern of n
 ```
 
-You can achieve the same result by shifting `n` to the right by a number of places and simply comparing with `1` using `&`.
+You can achieve the same result by shifting `n` to the right by a number of places and simply comparing with `1` using `&`. Because we're comparing with 1 the result can always only be either 1 or 0, no integer division necessary.
 
 ```java
 int n = [some number];
 
-int fourthBitFromRight = (n >> 4) & 1; // Evaluates to the value of the fourth bit from the right in the binary pattern of n
+int fourthBitFromRight = (n >> 3) & 1; // Evaluates to the value of the fourth bit from the right in the binary pattern of n
 ```
 
 ### The instanceof Operator
