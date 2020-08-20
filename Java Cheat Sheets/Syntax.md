@@ -155,6 +155,34 @@ int x = 2;
 int x = x * 3; // 6
 ```
 
+### Increment and Decrement Operators
+
+The increment and decrement operators add or subtract `1` to or from a variable. They can be postfixed or prefixed to the variable you want to manipulate.
+
+```java
+int a = 0;
+int b = 0;
+
+++a; // 1
+b++; // 1
+
+a--; // 0
+--b; // 0
+```
+
+The difference between the pre- and postfix versions of these operators are the order in which they work on variables in an expression. The prefix form will increment/decrement first and then evaluate the expression, while the postfix form will evaluate the expression first and then increment the variable.
+
+```java
+int m = 7;
+int n = 7;
+
+int a = 2 * ++m; // Increments m by 1 and then calculates 2 * 8 = 16
+int b = 2 * n++; // Calculates 2 * 7 = 14, and then increments n by 1.
+
+println("The value of a is " + a + " and the value of m is " + m); // The value of a is 16 and the value of m is 8
+println("The value of b is only " + b + " but the value of n is also " + m + "!"); // The value of b is only 14 but the value of n is also 8!
+```
+
 ### Relational and Boolean Operators
 
 ```java
