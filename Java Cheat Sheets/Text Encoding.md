@@ -5,4 +5,6 @@ This document isn't specifically *for* Java, but I'm adding it for context in re
 A *Unicode code unit* is a bit size used by a particular Unicode encoding, e.g. UTF-8 (8 bits), UTF-16 (16 bits) and UTF-32 (32 bits).
 A *code point* is a unique integer assigned to each character. To represent one *code point* you may need several *code units*, depending on the encoding.
 
+Remove this when done using: https://coderanch.com/t/416952/java/Unicode-code-unit-Unicode-code
+
 TODO

@@ -108,20 +108,55 @@ Java uses UTF-16, which means one code unit in Java has a size of 16 bits, or tw
 
 ### Length
 
-The `length` method yields the number of code units required for a given string in the UTF-16 encoding. For example:
+The `length` method yields the number of code units (byte pairs since we're using UTF-16) required for a given string. For example:
 
 ```java
 String greeting = "Hello";
 int n = greeting.length(); // 5
 ```
 
-To get the true length—e.g. the number of code points—call
+To get the true length—e.g. the number of code points—call the `codePointCount` method:
+
+Syntax:
+
+`[string].codePointCount([start code unit index], [end code unit index]);`
 
 ```java
+// Looks for code points between the 1st (index 0) code unit and the code unit at index greeting.length() - 1
 int cpCount = greeting.codePointCount(0, greeting.length());
 ```
 
-### 
+### Checking Individual Code Units and Code Points
 
+The `i`th code unit:
+```java
+int i = 3;
+char greeting.charAt(i - 1); // Check the 3rd code unit, at index 2
+```
+The `i`th code point:
+```java
+int i = 3;
+int index = greeting.offsetByCodePoints(0, i); // Count i code points from the code unit at index 0, return the index of the code unit at that position
+int codePoint = greeting.codePointAt(index); // The code point at this index, e.g. 'l' if I'm not mistaken.
+```
+
+To easily look at all the code points in a string, combine the `codePoints` method with the `toArray` method:
+```java
+int[] codePoints = greeting.codePoints().toArray(); // An array of all the code points in greeting
+
+for (int i = 0; i < codePoints.length; i++) {
+    println(codePoints[i]);
+}
+
+// H
+// e
+// l
+// l
+// o
+```
+
+## Useful Methods of the `String` Class
+
+See p. 68 in *Core Java Volume 1—Fundamentals Eleventh Edition*. 
 
 TODO
