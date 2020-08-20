@@ -170,7 +170,7 @@ a--; // 0
 --b; // 0
 ```
 
-The difference between the pre- and postfix versions of these operators are the order in which they work on variables in an expression. The prefix form will increment/decrement first and then evaluate the expression, while the postfix form will evaluate the expression first and then increment the variable.
+The difference between the pre- and postfix versions of these operators are the order in which they work on variables in an expression. The prefix form will increment/decrement first and then evaluate the expression, while the postfix form will evaluate the expression first and then increment the variable. This can be confusing and error-prone, and you should therefore avoid using these operators inside an expression.
 
 ```java
 int m = 7;
