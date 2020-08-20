@@ -106,6 +106,20 @@ JOptionPane.showInputDialog(null, "Which character would you like to play as?", 
 JOptionPane.showInputDialog("Type something here, please!");
 ```
 
+### Return Values
+
+For `showInputDialog` you will always get an object if the user submitted, or `null` if the user canceled or closed the dialog.
+
+For all other dialogs the following generally apply:
+
+* `CLOSED_OPTION`   The user closed the dialog
+* `CANCEL_OPTION`   The user canceled the dialog
+* `OK_OPTION`       The user pressed the "OK" button
+* `YES_OPTION`      The user pressed the "Yes" button
+* `NO_OPTION`       The user pressed the "No" button
+
+Otherwise the return value will be an index representing an object in an array of options.
+
 ## File IO
 
 
