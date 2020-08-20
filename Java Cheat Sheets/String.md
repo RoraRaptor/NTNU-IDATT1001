@@ -99,7 +99,29 @@ if (str != null && str.length() != 0) // True
 
 ## Code Points and Code Units
 
+See "Text Encoding.md".
 
+A *Unicode code unit* is a bit size used by a particular Unicode encoding, e.g. UTF-8 (8 bits), UTF-16 (16 bits) and UTF-32 (32 bits).
+A *code point* is a unique integer assigned to each character. To represent one *code point* you may need several *code units*, depending on the encoding.
+
+Java uses UTF-16, which means one code unit in Java has a size of 16 bits, or two bytes.
+
+### Length
+
+The `length` method yields the number of code units required for a given string in the UTF-16 encoding. For example:
+
+```java
+String greeting = "Hello";
+int n = greeting.length(); // 5
+```
+
+To get the true length—e.g. the number of code points—call
+
+```java
+int cpCount = greeting.codePointCount(0, greeting.length());
+```
+
+### 
 
 
 TODO
