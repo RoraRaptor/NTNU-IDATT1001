@@ -115,7 +115,7 @@ String greeting = "Hello";
 int n = greeting.length(); // 5
 ```
 
-To get the true length—e.g. the number of code points—call the `codePointCount` method:
+To get the true length—e.g. the number of code points (or letters, numbers, symbols, etc.)—call the `codePointCount` method:
 
 Syntax:
 
@@ -153,6 +153,20 @@ for (int i = 0; i < codePoints.length; i++) {
 // l
 // l
 // o
+```
+
+## Building Strings
+
+Building a string from many different pieces using concatenation would be very inefficient, since you would make a new copy in memory each time you add a piece. A much better alternative is using the `StringBuilder` class, which takes in strings, characters and other values to build a new `String` object.
+
+```java
+StringBuilder builder = new StringBuilder();
+
+builder.append(string);
+builder.append(character);
+builder.append(floatingPointNumber);
+
+String completedString = builder.toString(); // Equivalent of string + character + float, but faster and using less memory
 ```
 
 ## Useful Methods of the `String` Class
