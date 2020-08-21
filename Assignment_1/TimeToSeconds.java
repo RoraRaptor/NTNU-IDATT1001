@@ -29,8 +29,6 @@ public class TimeToSeconds {
 
     public static void main(String[] args) {
 
-        // Convert hours, minutes and seconds to the total number of seconds
-
         /* TEST DATA
         =====================================================================
         | Input (h, m, s)       | Expected Output     | Output              |
