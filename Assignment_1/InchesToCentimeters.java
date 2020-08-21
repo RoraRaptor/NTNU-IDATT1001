@@ -15,10 +15,12 @@ public class InchesToCentimeters {
 
     private static boolean validateDouble(double d) {
 
+        // TODO Fix: When the user inputs signed or plain zeroes they still get an error.
         boolean validated = !(Double.isInfinite(d) || Double.compare(+0.0f, d) == 0 || Double.compare(-0.0f, d) == 0);
 
         return validated;
     }
+
     public static void main(String[] args) {
 
         JOptionPane.showMessageDialog(null, "Welcome!\n\n" + "This little program lets you convert inches to centimeters.", TITLE, JOptionPane.PLAIN_MESSAGE);
@@ -59,6 +61,7 @@ public class InchesToCentimeters {
 
             } while (input != null && !inputValidated); // Repeat if we still have input and it has not been validated
 
+            // TODO Fix: When the user gets an error earlier in the program, this block runs and gives the associated error message, even when the user has input new, valid data 
             if (input != null) { // Check again if user canceled
                 
                 double result = CM_PER_INCH * parsedInput;
@@ -87,5 +90,19 @@ public class InchesToCentimeters {
         // Display friendly valediction and exit the program
         JOptionPane.showMessageDialog(null, "Thank you for using InchesToCentimeters.", TITLE, JOptionPane.PLAIN_MESSAGE);
 
+        /* TEST DATA
+        ===================================================================================================================
+        | Input                            | Expected Output          | Actual Output                                     |
+        |==================================|==========================|===================================================|
+        | 249                              | 632.46cm                 | 632.46cm                                          |
+        | 0                                | 0.0cm                    | "Couldn't interpret" and "Too large or too small" |
+        | Text                             | "Couldn't interpret"     | "Couldn't interpret"                              |
+        | 0 < num < Double.MIN_VALUE       | "Can't convert"          | "Can't convert"                                   |
+        | 0 > num > -Double.MIN_VALUE      | "Can't convert"          | "Can't convert"                                   |
+        | num > Double.MAX_VALUE           | "Can't convert"          | "Can't convert"                                   |
+        | num < -Double.MAX_VALUE          | "Can't convert"          | "Can't convert"                                   |
+        | num > (Double.MAX_VALUE / 2.54)  | "Too large or too small" | "Too large or too small"                          |
+        | num < -(Double.MAX_VALUE / 2.54) | "Too large or too small" | "Too large or too small"                          |
+        =================================================================================================================*/
     }
 }
