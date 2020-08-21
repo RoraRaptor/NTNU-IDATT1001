@@ -15,27 +15,7 @@ public class InchesToCentimeters {
 
     private static boolean validateDouble(double d) {
 
-        boolean validated = true;
-
-        if (d == Double.POSITIVE_INFINITY) { // Positive overflow: d > Double.MAX_VALUE
-            
-            validated = false;
-        }
-        
-        else if (d == Double.NEGATIVE_INFINITY) { // Negative underflow: d < -Double.MAX_VALUE
-            
-            validated = false;
-        }
-
-        else if (Double.compare(+0.0f, d) == 0) { // Negative underflow: -Double.MIN_VALUE < d < 0
-            
-            validated = false;
-        }
-
-        else if (Double.compare(-0.0f, d) == 0) { // Positive underflow: 0 < d < Double.MIN_VALUE
-            
-            validated = false;
-        }
+        boolean validated = !(Double.isInfinite(d) || Double.compare(+0.0f, d) == 0 || Double.compare(-0.0f, d) == 0);
 
         return validated;
     }
@@ -58,20 +38,22 @@ public class InchesToCentimeters {
 
                     parsedInput = Double.parseDouble(input);
 
-                    if(!validateDouble(parsedInput)) {
+                    if (validateDouble(parsedInput)) {
+
+                        inputValidated = true;
+                    
+                    } else {
 
                         throw new DoubleFlowException();
                     }
-
-                    inputValidated = true;
 
                 } catch (NumberFormatException e) { // Illegal input, ask again
 
                     input = JOptionPane.showInputDialog(null, "Oops! We couldn't interpret that as a number.\n\nPlease only input a number like \"3\" or \"12.4\" without the quotation marks.\n\n" + "Inches:", TITLE, JOptionPane.WARNING_MESSAGE);
 
-                } catch (DoubleFlowException e) {
+                } catch (DoubleFlowException e) { // Illegal input, ask again
 
-                    input = JOptionPane.showInputDialog(null, "Oops! Due to technical limitations, we couldn't convert that number.\n\nPlease input a new number like \"3\" or \"12.4\" without the quotation marks.\n\n" + "Inches:", TITLE, JOptionPane.WARNING_MESSAGE);
+                    input = JOptionPane.showInputDialog(null, "Oops! Due to technical limitations we can't convert this number.\n\nPlease input a different number like \"3\" or \"12.4\" without the quotation marks.\n\n" + "Inches:", TITLE, JOptionPane.WARNING_MESSAGE);
 
                 }
 
@@ -80,9 +62,21 @@ public class InchesToCentimeters {
             if (input != null) { // Check again if user canceled
                 
                 double result = CM_PER_INCH * parsedInput;
+
+                if (validateDouble(result)) {
+
+                    String resultMessage = "Results: " + parsedInput + "\" ➡ " + result + "cm";
+                    String formattedResultMessage = String.format("Results: %,#.3f\" ➡ %,#.3fcm", parsedInput, result);
             
-                // Display results
-                JOptionPane.showMessageDialog(null, "Results: " + parsedInput + "\" ➡ " + result + "cm", TITLE, JOptionPane.INFORMATION_MESSAGE);
+                    // Display results
+                    JOptionPane.showMessageDialog(null, resultMessage, TITLE, JOptionPane.INFORMATION_MESSAGE);
+
+                } else {
+
+                    // Error message
+                    JOptionPane.showMessageDialog(null, "Oops! The magnitude of the result is too large or too small (without being zero) to represent in Java's text encoding, so we can't understand it.", TITLE, JOptionPane.INFORMATION_MESSAGE);
+
+                }
 
                 // Ask the user for new input. If they enter something, the while loop runs again.
                 input = JOptionPane.showInputDialog(null, "Do you want to run the program again? If so, please enter a new number to convert.\n\n" + "Inches:", TITLE, JOptionPane.QUESTION_MESSAGE);
