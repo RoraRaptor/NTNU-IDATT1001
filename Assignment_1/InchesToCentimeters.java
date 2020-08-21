@@ -69,7 +69,7 @@ public class InchesToCentimeters {
                 if (validateDouble(result)) {
 
                     String resultMessage = "Results: " + parsedInput + "\" ➡ " + result + "cm";
-                    String formattedResultMessage = String.format("Results: %,#.3f\" ➡ %,#.3fcm", parsedInput, result);
+                    //String formattedResultMessage = String.format("Results: %,#.3f\" ➡ %,#.3fcm", parsedInput, result);
             
                     // Display results
                     JOptionPane.showMessageDialog(null, resultMessage, TITLE, JOptionPane.INFORMATION_MESSAGE);
