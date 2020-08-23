@@ -75,7 +75,6 @@ public class SecondsToTime {
 
                 continueScan = yesOrNo.equalsIgnoreCase("yes");
             }
-
         }
     }
 }
