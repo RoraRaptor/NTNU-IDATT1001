@@ -63,3 +63,9 @@ Size s = Size.MEDIUM;
 ## Converting Types
 
 TODO
+
+### Automatic conversion
+
+### Casting
+
+### Strings

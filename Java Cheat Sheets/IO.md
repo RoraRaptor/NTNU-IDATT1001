@@ -25,6 +25,8 @@ String username = cons.readLine("User name: "); // Console can only read whole l
 char[] password = cons.readPassword("Password: "); // Passwords will not be plainly visible, and they will be returned in a character array for security reasons
 ```
 
+When you're done processing the password you should immediately overwrite the array elements with a filler value.
+
 Printing:
 ```java
 System.out.print("How 'you doin'?"); // Prints "How 'you doin'?" to the console
@@ -122,5 +124,37 @@ Otherwise the return value will be an index representing an object in an array o
 
 ## File IO
 
+### File Paths
+
+TODO
+
+### Reading Files
+
+To read from a file, construct a `Scanner` object pointing to the file:
+
+```java
+Scanner in = new Scanner(Path.of("myfile.txt"), StandardCharsets.UTF_8);
+```
+---
+
+**Warning!** Constructing the `Scanner` using a string parameter will make it scan the string, not treat it as the path to a file.
+
+Further, you must know which character encoding the file is using for it to work properly. If you omit the encoding argument, it will use the system default, which will lead to inconsistencies.
+
+---
+
+Now you can read from the file using the `Scanner` methods previously described.
+
+### Writing to Files
+
+To write to a file, construct a `PrintWriter` object:
+
+```java
+PrintWriter out = new PrintWriter("myfile.txt", StandardCharsets.UTF_8);
+```
+
+If the file does not exist, it is created. You can use the `print`, `println`, and `printf` commands as when printing to `System.out`.
+
+### Exceptions
 
 TODO
