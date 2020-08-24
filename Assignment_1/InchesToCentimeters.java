@@ -29,16 +29,17 @@ public class InchesToCentimeters {
 
     public static void main(String[] args) {
 
-        JOptionPane.showMessageDialog(null, "Welcome!\n\n" + "This little program lets you convert inches to centimeters.", TITLE, JOptionPane.PLAIN_MESSAGE);
+        String welcome = "Welcome!\n\n" +
+                         "This little program lets you convert inches to centimeters.";
 
-        // Ask the user how many inches they want to convert
-        String input = inputInches();
+        JOptionPane.showMessageDialog(null, welcome, TITLE, JOptionPane.PLAIN_MESSAGE); // Display greeting
+
+        String input = inputInches(); // Ask the user how many inches they want to convert (reset before asking again)
         double parsedInput = 0;
         
-        // The control variable starts as false
-        boolean inputValidated = false;
+        boolean inputValidated = false; // The control variable starts as false (reset before getting new input)
 
-        while (input != null) { // Has user already exited/canceled?
+        while (input != null) { // If input is null the user has quit the program
 
             do {
 
@@ -46,9 +47,9 @@ public class InchesToCentimeters {
 
                     parsedInput = Double.parseDouble(input);
 
-                    if (!Double.isInfinite(parsedInput)) {
+                    if (!Double.isInfinite(parsedInput)) { // If input is an actual number, we can use it
 
-                        inputValidated = true; // We can use the parsed input
+                        inputValidated = true;
                     
                     } else {
 
@@ -69,30 +70,25 @@ public class InchesToCentimeters {
 
                 }
 
-            } while (input != null && !inputValidated); // Repeat if we still have input and it has not been validated
+            } while (input != null && !inputValidated); // Repeat if user's input hasn't been validated
 
-            
-            if (input != null) { // Check again if user canceled
+
+            if (input != null) { // Only compute result if the user hasn't quit the program
                 
                 double result = CM_PER_INCH * parsedInput;
 
-                // Check that the result makes sense
-                if (!Double.isInfinite(result)) {
+                if (!Double.isInfinite(result)) { // Check that the result makes sense
 
                     String resultMessage = "Results: " + parsedInput + "\" ➡ " + result + "cm";
-                    //String formattedResultMessage = String.format("Results: %,#.3f\" ➡ %,#.3fcm", parsedInput, result);
-            
-                    // Display results
-                    JOptionPane.showMessageDialog(null, resultMessage, TITLE, JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, resultMessage, TITLE, JOptionPane.INFORMATION_MESSAGE); // Display result
 
                     inputValidated = false;
                     input = null;
-                    input = inputInches("Do you want to run the program again?", JOptionPane.QUESTION_MESSAGE);
+                    input = inputInches("Do you want to run the program again?", JOptionPane.QUESTION_MESSAGE); // Ask for new number
 
-                } else {
+                } else { // Result is too large, ask again.
 
-                    String resultTooLargeMessage = "Oops! The magnitude of the result is too large or too small (without being zero) " +
-                                                   "to represent in Java's text encoding, so we can't understand it.";
+                    String resultTooLargeMessage = "Oops! The result is too large to compute!";
 
                     inputValidated = false;
                     input = null;
@@ -102,18 +98,16 @@ public class InchesToCentimeters {
             }
         }
 
-        // Display friendly valediction and exit the program
-        JOptionPane.showMessageDialog(null, "Thank you for using InchesToCentimeters.", TITLE, JOptionPane.PLAIN_MESSAGE);
+        String goodbye = "Thank you for using InchesToCentimeters.";
+        JOptionPane.showMessageDialog(null, goodbye, TITLE, JOptionPane.PLAIN_MESSAGE); // Display friendly valediction and exit the program
 
         /* TEST DATA
         ===================================================================================================================
         | Input                            | Expected Output          | Actual Output                                     |
         |==================================|==========================|===================================================|
         | 249                              | 632.46cm                 | 632.46cm                                          |
-        | 0                                | 0.0cm                    | "Couldn't interpret" and "Too large or too small" |
+        | 0                                | 0.0cm                    | 0.0cm                                             |
         | Text                             | "Couldn't interpret"     | "Couldn't interpret"                              |
-        | 0 < num < Double.MIN_VALUE       | "Can't convert"          | "Can't convert"                                   |
-        | 0 > num > -Double.MIN_VALUE      | "Can't convert"          | "Can't convert"                                   |
         | num > Double.MAX_VALUE           | "Can't convert"          | "Can't convert"                                   |
         | num < -Double.MAX_VALUE          | "Can't convert"          | "Can't convert"                                   |
         | num > (Double.MAX_VALUE / 2.54)  | "Too large or too small" | "Too large or too small"                          |
