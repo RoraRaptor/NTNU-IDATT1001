@@ -30,54 +30,48 @@ public class Grocery {
         return this.brand;
     }
 
-    public String setBrand(String newBrand) {
+    public void setBrand(String newBrand) {
         this.brand = newBrand;
-        return this.brand;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public String setName(String newName) {
+    public void setName(String newName) {
         this.name = newName;
-        return this.name;
     }
 
     public int getAmount() {
         return this.amount;
     }
 
-    public int setAmount(int newAmount) {
+    public void setAmount(int newAmount) {
         this.amount = newAmount;
-        return this.amount;
     }
 
     public String getUnit() {
         return this.unit;
     }
 
-    public String setUnit(String newUnit) {
+    public void setUnit(String newUnit) {
         this.unit = newUnit;
-        return this.unit;
     }
 
     public double getCost() {
         return this.cost;
     }
 
-    public double setCost(double newCost) {
+    public void setCost(double newCost) {
         this.cost = newCost;
-        return this.cost;
     }
 
     public String getCurrency() {
         return this.currency;
     }
 
-    public String setCurrency(String newCurrency) {
+    public void setCurrency(String newCurrency) {
         this.currency = newCurrency;
-        return this.currency;
     }
 
     /**
