@@ -94,14 +94,17 @@ public class Grocery {
         return (this.cost/this.amount) - (b.getCost()/b.getAmount());
     }
 
+    public String getSummary() {
+
+        return this.brand + "'s product " + this.name + " costs " + this.cost + " " + this.currency + " per " + this.amount + " " + this.unit;
+    }
+
     public static void main(String[] args) {
         
         Grocery a = new Grocery("A", 450, 35.90);
         Grocery b = new Grocery("B", 500, 39.50);
 
-        String intro = "Which brand has the cheapest product?\n\n" +
-                      a.getBrand() + "'s product costs " + a.getCost() + " " + a.getCurrency() + " per " + a.getAmount() + " " + a.getUnit() + ".\n" +
-                      b.getBrand() + "'s product costs " + b.getCost() + " " + b.getCurrency() + " per " + b.getAmount() + " " + b.getUnit() + ".\n";
+        String intro = "Which brand has the cheapest product?\n\n" + a.getSummary() + "\n\n" + b.getSummary() + ".\n";
 
         System.out.println(intro);
 
