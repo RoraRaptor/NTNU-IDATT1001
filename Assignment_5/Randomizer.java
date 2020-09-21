@@ -59,9 +59,9 @@ public class Randomizer {
 
     public static int nextInteger(int lowerBound, int upperBound) {
 
-        int range = upperBound - lowerBound - 2; // Not including lowerBound or upperBound
+        int range = upperBound - lowerBound - 1; // Subtract one to exclude lowerBound
 
-        return random.nextInt(range) + lowerBound + 1;
+        return random.nextInt(range) + lowerBound + 1; // Shift the range up by one to exclude lowerBound
     }
 
     public static double nextFloatingPointNumber(double lowerBound, double upperBound) {
