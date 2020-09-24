@@ -1,7 +1,6 @@
 
 package Assignment_6;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Matrix {
@@ -21,14 +20,60 @@ public class Matrix {
         }
     }
 
-//    public Matrix (String str) {
-//
-//        // Matches groups of ints separated by spaces separated by commas
-//        if (str.matches("^(([0-9]+\W)+,)+([0-9]+\W)+$")) {
-//            this.matrix = parseMatrixString(str);
-//        }
-//
-//    }
+    public Matrix (String inputString) {
+
+        if (inputString == null) {
+
+            throw new IllegalArgumentException("Input can not be null.");
+        }
+
+        // Splitting on commas gives us each row of the matrix
+        String[] rowStrings = inputString.split(",");
+        boolean matching = true;
+
+        for (String rowString : rowStrings) {
+
+            // Matching integers separated by spaces
+            if (!rowString.matches("^([ ]*[0-9]+[ ]*)+$")) {
+
+                matching = false;
+                break;
+            }
+        }
+
+        if (!matching) {
+
+            throw new IllegalArgumentException("Could not construct Matrix from input.");
+        }
+
+        // Isolate the numbers in the first string and count them
+        int columns = rowStrings[0].strip().split("[ ]+").length;
+        int[][] newMatrix = new int[rowStrings.length][columns];
+
+        // Attempt to build matrix array
+        for (int i = 0; i < rowStrings.length; i++) {
+
+            String[] numberStrings = rowStrings[i].strip().split("[ ]+");
+
+            if (columns == numberStrings.length) {
+
+                // Parse numbers and add to matrix
+                for (int j = 0; j < numberStrings.length; j++) {
+
+                    newMatrix[i][j] = Integer.parseInt(numberStrings[j]);
+                }
+
+            } else {
+
+                throw new IllegalArgumentException("Rows must have equal number of columns.");
+            }
+        }
+
+
+        // Input represents a matrix
+
+        this.matrix = newMatrix;
+    }
 
     public int[][] getMatrix() {
         return matrix;
@@ -37,7 +82,9 @@ public class Matrix {
     public Matrix add(Matrix b) {
 
         if (matrix.length != b.matrix.length || matrix[0].length != b.matrix[0].length) {
-            throw new IllegalArgumentException("Addition is undefined for matrices of different dimensions.");
+//            throw new IllegalArgumentException("Addition is undefined for matrices of different dimensions.");
+
+            return null;
         }
 
         int[][] matrixSum = new int[matrix.length][matrix[0].length];
@@ -56,7 +103,9 @@ public class Matrix {
     public Matrix multiply(Matrix b) {
 
         if (matrix.length != b.matrix[0].length) {
-            throw new IllegalArgumentException("Matrices incompatible for multiplication.");
+//            throw new IllegalArgumentException("Matrices incompatible for multiplication.");
+
+            return null;
         }
 
         // Column length defined by this, row length defined by b
@@ -85,7 +134,7 @@ public class Matrix {
     public Matrix transpose() {
 
         // Switching row and column lengths
-        double[][] transposedMatrix = new double[matrix[0].length][matrix.length];
+        int[][] transposedMatrix = new int[matrix[0].length][matrix.length];
 
         for (int i = 0; i < matrix.length; i++) {
 
@@ -97,25 +146,25 @@ public class Matrix {
         return new Matrix(transposedMatrix);
     }
 
-    public int[][] parseMatrixString(String str) {
+    public String toString() {
 
-        String[] matrixRows = str.split(",");
+        StringBuilder str = new StringBuilder();
 
-        int matrixColumns = matrixRows[0].split(" ").length;
+        str.append("{");
 
-        int[][] matrix = new int[matrixRows.length][matrixColumns];
+        for (int[] row : matrix) {
+            str.append("\n\t{");
 
-        for (int i = 0; i < matrix.length; i++) {
-
-            String[] tempRow = matrixRows[i].split(" ");
-
-            for (int j = 0; j < tempRow.length; j++) {
-
-                matrix[i][j] = Integer.parseInt(tempRow[j].strip());
+            for (int element : row) {
+                str.append(element).append(", ");
             }
+
+            str.append("},");
         }
 
-        return matrix;
+        str.append("\n}");
+
+        return str.toString();
     }
 
     public static void main(String[] args) {
@@ -124,32 +173,75 @@ public class Matrix {
 
         System.out.println("Enter comma-separated rows of space-separated elements of matrices.\n");
 
+        // Setting up Matrix 1 for testing
         System.out.println("Matrix 1: ");
         String matrixString1 = in.nextLine();
-        Matrix matrix1;
 
-//        // Matches groups of ints separated by spaces separated by commas
-//        if (matrixString1.matches("^([0-9]+\W)+$")) {
-//            matrix1 = new Matrix(matrixString1);
-//        }
+        Matrix matrix1 = new Matrix(matrixString1);
+        System.out.println("\n" + matrix1 + "\n");
 
+        // Setting up Matrix 2 for testing
         System.out.println("Matrix 2: ");
         String matrixString2 = in.nextLine();
 
+        Matrix matrix2 = new Matrix(matrixString2);
+        System.out.println("\n" + matrix2 + "\n");
 
-        int[][] aElements = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-        int[][] bElements = {{3, 19, 7}, {6, 1, 4}, {3, 7, 4}};
+        // Setting up Matrix 3 for testing
+        System.out.println("Matrix 3: ");
+        String matrixString3 = in.nextLine();
 
-        Matrix a = new Matrix(aElements);
-        Matrix b = new Matrix(bElements);
+        Matrix matrix3 = new Matrix(matrixString3);
+        System.out.println("\n" + matrix3 + "\n");
 
-        Matrix c = a.multiply(b);
+        try {
 
-        for (double[] row : c.getMatrix()) {
-            for (double element : row) {
+            System.out.println("Addition of Matrix 1 and Matrix 2:\n");
+            System.out.println(matrix1.add(matrix2) + "\n");
 
-                System.out.println(element);
-            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e + "\n");
         }
+
+        try {
+
+            System.out.println("Addition of Matrix 1 and Matrix 3:\n");
+            System.out.println(matrix1.add(matrix3) + "\n");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e + "\n");
+        }
+
+        try {
+
+            System.out.println("Matrix multiplication of Matrix 1 and Matrix 2:\n");
+            System.out.println(matrix1.multiply(matrix2) + "\n");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e + "\n");
+        }
+
+        try {
+
+            System.out.println("Matrix multiplication of Matrix 1 and Matrix 3:\n");
+            System.out.println(matrix1.multiply(matrix3) + "\n");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e + "\n");
+        }
+
+        System.out.println("Transpose of Matrix 1:\n");
+        System.out.println(matrix1.transpose() + "\n");
+
+        System.out.println("This concludes the demonstration. Good bye!\n");
     }
 }
+
+/*
+    Test Strings:
+
+    Matrix 1: 1 4 19, 7 8 2
+    Matrix 2: 6 3 5, 0 3 1 (Compatible for addition with Matrix 1)
+    Matrix 3: 6 3, 5 0, 3 1 (Compatible for multiplication with Matrix 1)
+
+ */
