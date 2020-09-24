@@ -1,14 +1,16 @@
+
 package Assignment_6;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Matrix {
 
-    double[][] matrix;
+    int[][] matrix;
 
-    public Matrix (double[][] matrix) {
+    public Matrix (int[][] matrix) {
 
-        this.matrix = new double[matrix.length][matrix[0].length];
+        this.matrix = new int[matrix.length][matrix[0].length];
 
         // Store deep copy of the input
         for (int i = 0; i < matrix.length; i++) {
@@ -19,7 +21,16 @@ public class Matrix {
         }
     }
 
-    public double[][] getMatrix() {
+//    public Matrix (String str) {
+//
+//        // Matches groups of ints separated by spaces separated by commas
+//        if (str.matches("^(([0-9]+\W)+,)+([0-9]+\W)+$")) {
+//            this.matrix = parseMatrixString(str);
+//        }
+//
+//    }
+
+    public int[][] getMatrix() {
         return matrix;
     }
 
@@ -29,7 +40,7 @@ public class Matrix {
             throw new IllegalArgumentException("Addition is undefined for matrices of different dimensions.");
         }
 
-        double[][] matrixSum = new double[matrix.length][matrix[0].length];
+        int[][] matrixSum = new int[matrix.length][matrix[0].length];
 
         for (int i = 0; i < matrix.length; i++) {
 
@@ -49,9 +60,9 @@ public class Matrix {
         }
 
         // Column length defined by this, row length defined by b
-        double[][] matrixSum = new double[matrix.length][b.matrix[0].length];
+        int[][] matrixSum = new int[matrix.length][b.matrix[0].length];
 
-        double sum = 0;  // Store sums inbetween operations
+        int sum = 0;  // Store sums inbetween operations
 
         // Multiply rows and columns
         for (int i = 0; i < matrix.length; i++) { // Rows of this
@@ -86,10 +97,48 @@ public class Matrix {
         return new Matrix(transposedMatrix);
     }
 
+    public int[][] parseMatrixString(String str) {
+
+        String[] matrixRows = str.split(",");
+
+        int matrixColumns = matrixRows[0].split(" ").length;
+
+        int[][] matrix = new int[matrixRows.length][matrixColumns];
+
+        for (int i = 0; i < matrix.length; i++) {
+
+            String[] tempRow = matrixRows[i].split(" ");
+
+            for (int j = 0; j < tempRow.length; j++) {
+
+                matrix[i][j] = Integer.parseInt(tempRow[j].strip());
+            }
+        }
+
+        return matrix;
+    }
+
     public static void main(String[] args) {
 
-        double[][] aElements = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-        double[][] bElements = {{3, 19, 7}, {6, 1, 4}, {3, 7, 4}};
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("Enter comma-separated rows of space-separated elements of matrices.\n");
+
+        System.out.println("Matrix 1: ");
+        String matrixString1 = in.nextLine();
+        Matrix matrix1;
+
+//        // Matches groups of ints separated by spaces separated by commas
+//        if (matrixString1.matches("^([0-9]+\W)+$")) {
+//            matrix1 = new Matrix(matrixString1);
+//        }
+
+        System.out.println("Matrix 2: ");
+        String matrixString2 = in.nextLine();
+
+
+        int[][] aElements = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        int[][] bElements = {{3, 19, 7}, {6, 1, 4}, {3, 7, 4}};
 
         Matrix a = new Matrix(aElements);
         Matrix b = new Matrix(bElements);
