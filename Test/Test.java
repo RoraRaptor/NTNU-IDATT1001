@@ -1,20 +1,17 @@
 package Test;
 
+import java.util.regex.Pattern;
+
 public class Test {
 
     public static void main(String[] args) {
 
-        String string = "1 2 3, 44   5 6,    7 8 9999";
+        String text = "Dette er en tekst som inneholder noen perioder. Hva er en periode, spør du? " +
+                "La meg forklare: En periode er en samling ord, skilt med tegnsetting! Ærlig talt, kan du ønske " +
+                "å vite noe mer?";
 
-        String[] splitString = string.split(",");
+        text = text.replaceAll("(?i)(?<=\\s)" + Pattern.quote("en") + "(?=\\s)", "Grethe");
 
-        for (String subString : splitString) {
-
-            if (subString.matches("^([ ]*[0-9]+[ ]*)+$")) {
-                System.out.println("It works");
-            } else {
-                System.out.println("It doesn't work");
-            }
-        }
+        System.out.println(text);
     }
 }
